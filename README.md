@@ -1,6 +1,6 @@
 # UDP client-server
 
-...
+Simple UDP client-server
 
 ## Makefile
 
@@ -19,9 +19,9 @@ make clean
 Run the server program first.
 
 ```bash
-./server port
+./server PORT
 ```
 Then run the client program.
 ```bash
-./client port
+./client PORT IP
 ```

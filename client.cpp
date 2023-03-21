@@ -1,36 +1,40 @@
 #include <sys/socket.h>
-#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <string>
 #include <iostream>
-#include <unistd.h>
 #include <cstring>
 
 
+#define MAX_BUFFER_SIZE 1024
 
 int main(int argc, char const *argv[]) {
 
-    char buffer[1024];
-    const char *hello = "Hello from client";
+    char buffer[MAX_BUFFER_SIZE];
+
+
     int port = atoi(argv[1]);
+    std::string ip = argv[2];
     int clientSocket = socket(AF_INET, SOCK_DGRAM, 0);
+    if (clientSocket < 0) {
+        std::cerr << "Failed to create socket" << std::endl;
+        return 1;
+    }
 
     struct sockaddr_in serverAddress;
 
+    memset(&serverAddress, 0, sizeof(serverAddress));
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(port);
-    serverAddress.sin_addr.s_addr = INADDR_ANY;
+    inet_pton(AF_INET, ip.c_str(), &serverAddress.sin_addr);
 
-    int n;
-    socklen_t len;
+    std::string message;
 
-    sendto(clientSocket, (const char *)hello, strlen(hello),MSG_CONFIRM, (const struct sockaddr *) &serverAddress,sizeof(serverAddress));
-    std::cout<<"Hello message sent."<<std::endl;
+    while (std::cin >> message) {
+        if (sendto(clientSocket, message.c_str(), message.length(), 0, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0) {
+            std::cerr << "Failed to send data" << std::endl;
+            return 1;
+        }
+    }
 
-    n = recvfrom(clientSocket, (char *)buffer, 1024,MSG_WAITALL, (struct sockaddr *) &serverAddress, &len);
-    buffer[n] = '\0';
-    std::cout << "Server :" << buffer << std::endl;
-
-    close(clientSocket);
     return 0;
-
 }
