@@ -29,7 +29,7 @@ int main(int argc, char const *argv[]) {
 
     std::string message;
 
-    while (std::cin >> message) {
+    while (getline(std::cin, message)) {
         if (sendto(clientSocket, message.c_str(), message.length(), 0, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0) {
             std::cerr << "Failed to send data" << std::endl;
             return 1;
