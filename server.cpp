@@ -9,7 +9,14 @@
 #define MAX_BUFFER_SIZE 1024
 
 int main(int argc, char const *argv[]) {
+
     char buffer[MAX_BUFFER_SIZE];
+
+    if(argc != 2) {
+        std::cerr << "Usage: "<< argv[0] <<" <port>" << std::endl;
+        return 1;
+    }
+
     int port = atoi(argv[1]);
 
     int serverSocket = socket(AF_INET, SOCK_DGRAM, 0);

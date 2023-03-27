@@ -11,6 +11,10 @@ int main(int argc, char const *argv[]) {
 
     char buffer[MAX_BUFFER_SIZE];
 
+    if (argc != 3) {
+        std::cerr << "Usage: "<< argv[0] <<" <port> <ip>" << std::endl;
+        return 1;
+    }
 
     int port = atoi(argv[1]);
     std::string ip = argv[2];
