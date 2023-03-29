@@ -12,12 +12,12 @@ int main(int argc, char const *argv[]) {
     char buffer[MAX_BUFFER_SIZE];
 
     if (argc != 3) {
-        std::cerr << "Usage: "<< argv[0] <<" <port> <ip>" << std::endl;
+        std::cerr << "Usage: "<< argv[0] <<" <ip> <port>" << std::endl;
         return 1;
     }
 
-    int port = atoi(argv[1]);
-    std::string ip = argv[2];
+    int port = atoi(argv[2]);
+    std::string ip = argv[1];
     int clientSocket = socket(AF_INET, SOCK_DGRAM, 0);
     if (clientSocket < 0) {
         std::cerr << "Failed to create socket" << std::endl;

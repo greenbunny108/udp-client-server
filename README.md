@@ -19,9 +19,9 @@ make clean
 Run the server program first.
 
 ```bash
-./server PORT
+./server <port>
 ```
 Then run the client program.
 ```bash
-./client PORT IP
+./client <ip> <port>
 ```
